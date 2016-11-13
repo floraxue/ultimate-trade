@@ -52,13 +52,15 @@ def login_view(request):
         password = postdata["password"]
         user_qs = User.objects.filter(username=username)
         if len(user_qs) == 0:
-            return JsonResponse({"result": "failed", "reason": "no matched users"})
+            return JsonResponse({"success": "false", "error": "no matched users",
+                                 "user_id": None})
         if password != user_qs[0].password:
-            return JsonResponse({"result": "failed", "reason": "wrong password"})
+            return JsonResponse({"success": "false", "error": "wrong password",
+                                 "user_id": None})
         user_id = user_qs[0].id
         if DEBUG:
-            return Response({"result": "success", "user_id": user_id})
-        return JsonResponse({"result": "success", "user_id": user_id})
+            return Response({"success": "true", "user_id": user_id, "error": ""})
+        return JsonResponse({"success": "true", "user_id": user_id, "error": ""})
 
 
 @login_required
