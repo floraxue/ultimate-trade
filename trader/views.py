@@ -71,6 +71,25 @@ def order_info_view(request, template_name="registration/order_info.html"):
     return render_to_response(template_name, locals(),
                                   context_instance=RequestContext(request))
 
+    class AllCategories(ListView):
+    context_object_name = "category_list"
+    queryset = Category.published.all()
+
+class CategoryList(ListView):
+
+    template_name = 'blog/category_and_connected_entries.html'
+
+    def get_queryset(self):
+        self.category = get_object_or_404(Category, self=self.kwargs['slug'])
+        return Entry.published.filter(category=self.category)
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super(CategoryList, self).get_context_data(**kwargs)
+        # Add in the category
+        context['category'] = self.category
+        return context
+
 
 
 
