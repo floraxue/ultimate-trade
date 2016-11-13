@@ -260,32 +260,3 @@ def account(request):
     return render(request, "gcapp/account.html", context)
 
 
-def reservation(request, reservation_id):
-    context = get_default_context(request)
-    reservation = get_object_or_404(Reservation, id=reservation_id)
-    context['reservation'] = reservation
-
-    return render(request, "gcapp/reservation.html", context)
-
-
-def cancel_reservation(request, reservation_id):
-    booking = get_object_or_404(Reservation, id=reservation_id)
-
-    MyLog.log_from_request(booking, None, request)
-    booking.refund_all_immediate()
-    booking.status = 'canceled'
-    booking.save()
-
-    booking.send_cancel_confirm()
-
-    return redirect('account')
-
-
-def modify_reservation(request, reservation_id):
-    reservation = get_object_or_404(Reservation, id=reservation_id)
-    MyLog.log_from_request(reservation, None, request)
-    reservation.refund_all_immediate()
-    reservation.status = 'canceled'
-    reservation.save()
-
-    return redirect('book_now')
