@@ -11,7 +11,7 @@ class SaleItemSerializer(serializers.ModelSerializer):
                   'price')
 
 class CategorySerializer(serializers.ModelSerializer):
-    sale_items = SaleItemSerializer(many=True)
+    all_items = SaleItemSerializer(many=True)
 
     class Meta:
         model = Category
