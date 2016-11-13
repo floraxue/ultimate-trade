@@ -17,17 +17,19 @@ ApiRequest.signup = function(email, username, pwd1, pwd2){
       dictionary["error"] = "Password not match"
     }
     $.ajax({
-    		url: "register",
+    		url: "http://127.0.0.1:8000/api/register/",
     		dataType: "json",
     		type: "post",
     		data: {
     			"email":email,
     			"username":username,
-    			"pwd":pwd1,
+    			"password":pwd1,
     		},
     		success: function(data){
           dictionary["success"] = data["success"];
           dictionary["error"] = data["error"];
+          dictionary["userID"] = data["user_id"];
+
           console.log("success");
   			},
   			failure: function(errMsg) {

@@ -19,16 +19,17 @@ from trader.serializers import (CategorySerializer, UserProfileSerializer,
                                 SaleItemSerializer)
 from django.contrib.auth.models import User
 
-
+import pdb
 
 @api_view(['POST'])
 def register_view(request):
     if request.method == 'POST':
         postdata = request.data
         up_se = UserProfileSerializer
-        username = postdata.pop("username")
-        password = postdata.pop("password")
-        email = postdata.pop("email")
+        pdb.set_trace()
+        username = postdata["username"]
+        password = postdata["password"]
+        email = postdata["email"]
         new_user = User.objects.create(username=username, password=password,
                                        email=email)
         new_user.save()
