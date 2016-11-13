@@ -11,11 +11,11 @@ class SaleItemSerializer(serializers.ModelSerializer):
                   'price')
 
 class CategorySerializer(serializers.ModelSerializer):
-    sale_items = SaleItemSerializer(many=True)
+    all_items = SaleItemSerializer(many=True)
 
     class Meta:
         model = Category
-        fields = ('id', 'name', 'parent_category', 'depth')
+        fields = ('id', 'name', 'parent_category', 'depth', 'all_items')
 
 class RootCategorySerializer(serializers.ModelSerializer):
     sale_items = SaleItemSerializer(many=True)

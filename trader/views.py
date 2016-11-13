@@ -1,19 +1,20 @@
 from django.shortcuts import render
 
 # Create your views here.
-from django.http import JsonResponse
-from django.contrib.auth.forms import UserCreationForm
+
 from django.contrib.auth import login, authenticate
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
 from django.core import urlresolvers
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.views.decorators.csrf import csrf_protect
+
 from rest_framework import routers, viewsets
 from rest_framework.decorators import list_route, api_view
 from rest_framework.response import Response
 from rest_framework import status
+
 from trader.models import UserProfile, Category, SaleItem
 from trader.serializers import (CategorySerializer, UserProfileSerializer,
                                 SaleItemSerializer)
@@ -21,13 +22,15 @@ from django.contrib.auth.models import User
 
 import pdb
 
+DEBUG = True
+
 @api_view(['POST'])
 def register_view(request):
 
 
     if request.method == 'POST':
         postdata = request.data
-        up_se = UserProfileSerializer
+        # up_se = UserProfileSerializer
         username = postdata["username"]
         password = postdata["password"]
         email = postdata["email"]
@@ -35,27 +38,28 @@ def register_view(request):
                                        email=email)
         new_user.save()
         new_user_id = new_user.id
-        #return Response({"result":"created", "user_id": new_user_id}, status=status.HTTP_201_CREATED)
+        if DEBUG:
+            return Response({"result":"created", "user_id": new_user_id}, status=status.HTTP_201_CREATED)
         return JsonResponse({"result":"created", "user_id": new_user_id})
-    # page_title = _(u'User Registration')
-    # if request.method == 'POST':
-    #     postdata = request.POST.copy()
-    #     form = UserCreationForm(postdata)
-    #     if form.is_valid():
-    #         form.save()
-    #         un = postdata.get('username', '')
-    #         pw = postdata.get('password1', '')
-    #         new_user = authenticate(username=un, password=pw)
-    #         if new_user and new_user.is_active:
-    #             login(request, new_user)
-    #             url = urlresolvers.reverse('my_account')
-    #             return HttpResponseRedirect(url)
-    # else:
-    #     form = UserCreationForm()
-    # template_name="registration/login.html"
-    # # return render_to_response(template_name, locals(),
-    # #                           context_instance=RequestContext(request))
-    # return Response()
+
+
+@api_view(['POST'])
+def login_view(request):
+
+    if request.method == 'POST':
+        postdata = request.data
+        username = postdata["username"]
+        password = postdata["password"]
+        user_qs = User.objects.filter(username=username)
+        if len(user_qs) == 0:
+            return JsonResponse({"result": "failed", "reason": "no matched users"})
+        if password != user_qs[0].password:
+            return JsonResponse({"result": "failed", "reason": "wrong password"})
+        user_id = user_qs[0].id
+        if DEBUG:
+            return Response({"result": "success", "user_id": user_id})
+        return JsonResponse({"result": "success", "user_id": user_id})
+
 
 @login_required
 def my_account_view(request):
@@ -91,16 +95,22 @@ def order_info_view(request, template_name="registration/order_info.html"):
     return render_to_response(template_name, locals(),
                                   context_instance=RequestContext(request))
 
-class AllCategories(viewsets.ModelViewSet):
+class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+
+class UserProfileViewSet(viewsets.ModelViewSet):
+    queryset = UserProfile.objects.all()
+    serializers_class = UserProfileSerializer
 
 def category_page(request):
     object_list = Category.objects.all()
     context = {'object_list': object_list,}
     return render(request, 'category_page.html', context)
 
-
+ROUTER = routers.DefaultRouter()
+ROUTER.register(r'users', UserProfileViewSet)
+ROUTER.register(r'categories', CategoryViewSet)
 
 
 
