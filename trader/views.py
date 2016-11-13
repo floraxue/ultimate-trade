@@ -26,7 +26,7 @@ DEBUG = True
 
 @api_view(['POST'])
 def register_view(request):
-    pdb.set_trace()
+
 
     if request.method == 'POST':
         postdata = request.data
@@ -38,7 +38,9 @@ def register_view(request):
                                        email=email)
         new_user.save()
         new_user_id = new_user.id
-        return Response({"result":"created", "user_id": new_user_id}, status=status.HTTP_201_CREATED)
+        if DEBUG:
+            return Response({"result":"created", "user_id": new_user_id}, status=status.HTTP_201_CREATED)
+        return JsonResponse({"result":"created", "user_id": new_user_id})
 
 
 @api_view(['POST'])
@@ -57,7 +59,6 @@ def login_view(request):
         if DEBUG:
             return Response({"result": "success", "user_id": user_id})
         return JsonResponse({"result": "success", "user_id": user_id})
-
 
 
 @login_required

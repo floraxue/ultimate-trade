@@ -20,22 +20,23 @@ ApiRequest.signup = function(email, username, pwd1, pwd2){
     		url: "http://127.0.0.1:8000/api/register/",
     		dataType: "json",
     		type: "post",
+        async: false,
     		data: {
     			"email":email,
     			"username":username,
     			"password":pwd1,
     		},
-    		success: function(data){
-          dictionary["success"] = data["success"];
+        }).done(function ( data ) {
+        Success = true;
+        dictionary["success"] = data["success"];
           dictionary["error"] = data["error"];
           dictionary["userID"] = data["user_id"];
-
-          console.log("success");
-  			},
-  			failure: function(errMsg) {
-  				console.log("server no response");
-  			}
-  		});
+          console.log("data_success");
+}).fail(function ( data ) {
+       Success = false;
+       console.log("data");
+});
+    		
       return dictionary;
 }
 

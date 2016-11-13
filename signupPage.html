@@ -67,6 +67,12 @@
             $("#pwd1_signup").val(),
             $("#pwd2_signup").val()
           );
+        Cookies.set("loggedin",true);
+        Cookies.set("userId",result["userId"]);
+        LoadComponent.loadLoginSignup("true");
+        $( "#signupModal" ).fadeOut();
+        $('body').removeClass('modal-open');
+        $('.modal-backdrop').remove();
 
         });
       </script>
