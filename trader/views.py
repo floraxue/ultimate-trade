@@ -9,15 +9,18 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.core import urlresolvers
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
-from django.utils.translation import ugettext_lazy as _
 from django.views.decorators.csrf import csrf_protect
+from rest_framework import routers, viewsets
+from rest_framework.decorators import list_route, api_view
+from rest_framework.response import Response
+from rest_framework import status
+from trader.models import UserProfile, Category, SaleItem
 
-from webshop.accounts.forms import UserProfileForm
-from webshop.accounts import profile
 
 
 
 @csrf_protect
+@api_view(['POST'])
 def register_view(request, template_name="registration/login.html"):
     page_title = _(u'User Registration')
     if request.method == 'POST':
@@ -39,9 +42,10 @@ def register_view(request, template_name="registration/login.html"):
                               context_instance=RequestContext(request))
 
 @login_required
-def my_account_view(request, template_name="registration/my_account.html"):
+def my_account_view(request):
+    template_name = "registration/my_account.html"
     page_title = _(u'My Account')
-    orders = Order.objects.filter(user=request.user)
+    users = UserProfile.objects.filter(user=request.user)
     name = request.user.username
     return render_to_response(template_name, locals(),
                               context_instance=RequestContext(request))
@@ -70,6 +74,16 @@ def order_info_view(request, template_name="registration/order_info.html"):
     page_title = _(u'Edit Order Information')
     return render_to_response(template_name, locals(),
                                   context_instance=RequestContext(request))
+
+    class AllCategories(ListView):
+    context_object_name = "category_list"
+    queryset = Category.published.all()
+
+def category_page(request):
+    object_list = Category.objects.all()
+    context = {'object_list': object_list,}
+    return render(request, 'category_page.html', context)
+
 
 
 
