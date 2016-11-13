@@ -23,8 +23,7 @@ ApiRequest.signup = function(email, username, pwd1, pwd2){
     		data: {
     			"email":email,
     			"username":username,
-    			"pwd1":pwd1,
-    			"pwd2":pwd2
+    			"pwd":pwd1,
     		},
     		success: function(data){
           dictionary["success"] = data["success"];
@@ -38,7 +37,7 @@ ApiRequest.signup = function(email, username, pwd1, pwd2){
       return dictionary;
 }
 
-ApiRequest.login = function(username, pwd1){
+ApiRequest.login = function(username, pwd){
     //login ApiRequest
     //input:
     //username: user's username
@@ -58,12 +57,20 @@ ApiRequest.login = function(username, pwd1){
     		success: function(data){
           dictionary["success"] = data["success"];
           dictionary["error"] = data["error"];
+          dictionary["userID"] = data["userID"]
   			},
   			failure: function(errMsg) {
   				console.log("server no response");
   			}
   		});
-      return dictionary;
+      //For test only
+      var myObject = new Object();
+      myObject.success = "true";
+      myObject.error = "";
+      myObject.userID = 2016;
+      myObject.username = username;
+      return  myObject;
+      //return dictionary;
 }
 
 ApiRequest.getItems = function(category){
