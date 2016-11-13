@@ -40,7 +40,10 @@
 
 <script>
 	var items = [];
-	Cookies.set("loggedin",false);
+	if(Cookies.get("loggedin")!=="true"){
+		Cookies.set("loggedin",false);
+	}
+	
 	$( document ).ready(function() {
     $("#accountPage").hide();
 });

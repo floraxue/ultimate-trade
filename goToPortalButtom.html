@@ -1,10 +1,18 @@
 <div>
   <div id = "goPortalButtom"  class="col-md-4 top-header-right">
     <button id = "goPortalButtom" type="button" class="btn btn-default">Go to Portal</button>
+    <button id = "logOutButtom" type="button" class="btn btn-default">Log out</button>
+
   </div>
   <script type="text/javascript">
     $( "#goPortalButtom" ).click(function() {
       WindowSwitching.toPortal();
+    });
+  </script>
+  <script type="text/javascript">
+    $( "#logOutButtom" ).click(function() {
+      Cookies.set("loggedin","false");
+      LoadComponent.loadLoginSignup();
     });
   </script>
 </div>
