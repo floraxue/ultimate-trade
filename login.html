@@ -54,19 +54,22 @@
   document.getElementById("loginSubmit").addEventListener("click", function(event){
           event.preventDefault()
   });
-
   $("#loginSubmit").click(function(){
-    console.log("submit_signin");
-
     var result = ApiRequest.login(
       $("#username_login").val(),
       $("#pwd_login").val()
     );
     console.log(result);
-    if(result["sucess"]=="true"){
+    console.log(result["userID"]);
+    if(result["success"]=="true"){
       Cookies.set("loggedin",true);
       Cookies.set("id",result["userID"]);
+      LoadComponent.loadLoginSignup("true");
+      $( "#signinModal" ).fadeOut();
+      $('body').removeClass('modal-open');
+      $('.modal-backdrop').remove();
     }
+
 
   });
 </script>

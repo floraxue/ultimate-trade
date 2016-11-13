@@ -29,8 +29,8 @@ ApiRequest.signup = function(email, username, pwd1, pwd2){
         }).done(function ( data ) {
         Success = true;
         dictionary["success"] = data["success"];
-          dictionary["error"] = data["error"];
-          dictionary["userID"] = data["user_id"];
+        dictionary["error"] = data["error"];
+        dictionary["userID"] = data["user_id"];
           console.log("data_success");
 }).fail(function ( data ) {
        Success = false;
@@ -50,30 +50,32 @@ ApiRequest.login = function(username, pwd){
     //"error": if not success, return error message, otherwise, empty string.
     var dictionary = {};
     $.ajax({
-    		url: " ",
+    		url: "http://127.0.0.1:8000/api/login/",
     		dataType: "json",
     		type: "post",
+        async: false,
     		data: {
     			"username":username,
-    			"pwd":pwd
+    			"password":pwd
     		},
-    		success: function(data){
-          dictionary["success"] = data["success"];
-          dictionary["error"] = data["error"];
-          dictionary["userID"] = data["userID"]
-  			},
-  			failure: function(errMsg) {
-  				console.log("server no response");
-  			}
-  		});
+    		}).done(function ( data ) {
+        Success = true;
+        dictionary["success"] = data["success"];
+        dictionary["error"] = data["error"];
+        dictionary["userID"] = data["user_id"];
+  			
+  			}).fail(function ( data ) {
+       Success = false;
+       console.log("data");
+});
       //For test only
-      var myObject = new Object();
-      myObject.success = "true";
-      myObject.error = "";
-      myObject.userID = 2016;
-      myObject.username = username;
-      return  myObject;
-      //return dictionary;
+      //var myObject = new Object();
+      //myObject.success = "true";
+      //myObject.error = "";
+      //myObject.userID = 2016;
+      //myObject.username = username;
+      //return  myObject;
+      return dictionary;
 }
 
 ApiRequest.getItems = function(category){
@@ -104,10 +106,10 @@ ApiRequest.getItems = function(category){
       },
       success: function(data){
         for(var i in data){
-           var id = data[i].itemID;
+           var id = data[i].id;
            var title = data[i].title;
            var name = data[i].itemimage;
-           var releaseDate = data[i].releaseDate;
+           var releaseDate = data[i].created_on;
            var username = data[i].username;
            var item = new ItemInList(id,name,releaseDate,username);
            items.push(item);

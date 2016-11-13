@@ -67,6 +67,7 @@
             $("#pwd1_signup").val(),
             $("#pwd2_signup").val()
           );
+          console.log(result);
         Cookies.set("loggedin",true);
         Cookies.set("userId",result["userId"]);
         LoadComponent.loadLoginSignup("true");
