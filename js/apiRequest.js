@@ -100,7 +100,7 @@ ApiRequest.getItems = function(category){
       dataType: "json",
       type: "post",
       data: {
-        "category":username
+        "category":category
       },
       success: function(data){
         for(var i in data){

@@ -33,15 +33,19 @@
 <!--bottom-header-->
 <div class="btn-group" role="group" aria-label="Basic example">
   <button type="button" class="btn btn-primary goToMain">Main</button>
-  <button type="button" class="btn btn-primary" id="bedFrameSearch">Bed Frame</button>
-  <button type="button" class="btn btn-primary" id="matressSearch">Matress</button>
-  <button type="button" class="btn btn-primary" id="chairSearch">Chair</button>
-  <button type="button" class="btn btn-primary" id="deskSearch">Desk</button>
-  <button type="button" class="btn btn-primary" id="otherSearch">Other</button>
+  <button type="button" class="itemSearch btn btn-primary" id="bedFrameSearch">Bed Frame</button>
+  <button type="button" class="itemSearch btn btn-primary" id="matressSearch">Matress</button>
+  <button type="button" class="itemSearch btn btn-primary" id="chairSearch">Chair</button>
+  <button type="button" class="itemSearch btn btn-primary" id="deskSearch">Desk</button>
+  <button type="button" class="itemSearch btn btn-primary" id="otherSearch">Other</button>
 </div>
 <script>
   $(".goToMain").click(function() {
     WindowSwitching.toMain();
 });
+  $(".itemSearch").click(function(){
+    console.log(this.id);
+    var result = ApiRequest.getItems(this.id);
+  });
 </script>
 <!--bottom-header-->
