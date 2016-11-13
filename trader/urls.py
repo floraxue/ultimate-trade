@@ -12,9 +12,9 @@ urlpatterns = patterns('webshop.accounts.views',
 		{'template_name': 'registration/my_account.html'},
 		name='my_account'),
 	# Просмотр информации о сделанном заказе
-	url(r'^order_details/(?P<order_id>[-\w]+)/$', 'order_details_view',
-		{'template_name': 'registration/order_details.html'},
-		name='order_details'),
+	# url(r'^order_details/(?P<order_id>[-\w]+)/$', 'order_details_view',
+	# 	{'template_name': 'registration/order_details.html'},
+	# 	name='order_details'),
 	# Информация обо всех заказах
 	url(r'^orders_info/$', 'order_info_view',
 		{'template_name': 'registration/order_info.html'},
