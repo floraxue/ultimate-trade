@@ -15,13 +15,11 @@ from rest_framework.decorators import list_route, api_view
 from rest_framework.response import Response
 from rest_framework import status
 from trader.models import UserProfile, Category, SaleItem
+from trader.serializers import CategorySerializer
 
 
-
-
-@csrf_protect
 @api_view(['POST'])
-def register_view(request, template_name="registration/login.html"):
+def register_view(request):
     page_title = _(u'User Registration')
     if request.method == 'POST':
         postdata = request.POST.copy()
@@ -37,9 +35,10 @@ def register_view(request, template_name="registration/login.html"):
                 return HttpResponseRedirect(url)
     else:
         form = UserCreationForm()
-
-    return render_to_response(template_name, locals(),
-                              context_instance=RequestContext(request))
+    template_name="registration/login.html"
+    # return render_to_response(template_name, locals(),
+    #                           context_instance=RequestContext(request))
+    return Response()
 
 @login_required
 def my_account_view(request):
@@ -75,9 +74,9 @@ def order_info_view(request, template_name="registration/order_info.html"):
     return render_to_response(template_name, locals(),
                                   context_instance=RequestContext(request))
 
-    class AllCategories(ListView):
-    context_object_name = "category_list"
-    queryset = Category.published.all()
+class AllCategories(viewsets.ModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
 
 def category_page(request):
     object_list = Category.objects.all()
