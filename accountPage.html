@@ -1,0 +1,34 @@
+<div>
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">My item</a></li>
+    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Submit new</a></li>
+    </ul>
+
+  <!-- Tab panes -->
+
+</div>
+<div class="tab-content">
+  <div role="tabpanel" class="tab-pane fade in active" id="home">
+    <div> My items </div>
+  </div>
+  <div role="tabpanel" class="tab-pane fade" id="profile">
+    <div> submit my item</div>
+    <div id = "itemUpload"></div>
+    <script type="text/javascript">
+      LoadComponent.loaditemUploadPage();
+    </script>
+
+  </div>
+</div>
+
+<script type="text/javascript">
+  console.log("success");
+  $('#myItem').tab("show");
+  $('#submitItem').tab("show");
+  $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+  e.target // newly activated tab
+  e.relatedTarget // previous active tab
+});
+
+</script>

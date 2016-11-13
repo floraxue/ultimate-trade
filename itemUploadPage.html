@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<head>
+	<title>Login</title>
+	<meta charset="utf-8">
+  	<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+  <script src = "third_party/jquery.min.js"></script>
+	<form class="form-horizontal" role="form">
+  		<div class="form-group">
+    		<label class="control-label col-sm-2">Item name:</label>
+    		<div class="col-sm-10">
+      			<input class="form-control" id="item_name" placeholder="Enter item name">
+    		</div>
+  		</div>
+  		<div class="form-group">
+    		<label class="control-label col-sm-2">Select File</label>
+    		<div class="col-sm-10">
+          <input id="input-4" name="input4[]" type="file" multiple class="file-loading">
+          <input id="input-4" name="input4[]" type="file" multiple class="file-loading">
+          <input id="input-4" name="input4[]" type="file" multiple class="file-loading">
+<script>
+$(document).on('ready', function() {
+    console.log("works");
+    $("#input-4").fileinput({showCaption: false});
+});
+</script>
+    		</div>
+  		</div>
+      <div class="form-group">
+        <label class="control-label col-sm-2">Choose category</label>
+        <div class="col-sm-10">
+          <select class="form-control form-control-lg">
+          <option>item1</option>
+          <option>item2</option>
+          <option>item3</option>
+        </div>
+
+        </select>
+      </div>
+  		<div class="form-group">
+    		<div class="col-sm-offset-2 col-sm-10">
+    			<div class="checkbox">
+        			<label><input type="checkbox"> Remember me</label>
+    			</div>
+    		</div>
+ 	 	</div>
+  		<div class="form-group">
+    		<div class="col-sm-offset-2 col-sm-10">
+      		<button type="submit" class="btn btn-default">Submit</button>
+    	</div>
+  		</div>
+	</form>
+</body>
