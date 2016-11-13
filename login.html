@@ -54,6 +54,7 @@
   document.getElementById("loginSubmit").addEventListener("click", function(event){
           event.preventDefault()
   });
+
   $("#loginSubmit").click(function(){
     console.log("submit_signin");
 
@@ -62,6 +63,10 @@
       $("#pwd_login").val()
     );
     console.log(result);
+    if(result["sucess"]=="true"){
+      Cookies.set("loggedin",true);
+      Cookies.set("id",result["userID"]);
+    }
 
   });
 </script>
