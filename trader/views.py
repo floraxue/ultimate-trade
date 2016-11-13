@@ -80,8 +80,8 @@ class CategoryList(ListView):
     template_name = 'blog/category_and_connected_entries.html'
 
     def get_queryset(self):
-        self.category = get_object_or_404(Category, self=self.kwargs['slug'])
-        return Entry.published.filter(category=self.category)
+        self.category = get_object_or_404(Category, self=self.kwargs['parent_category'])
+        return Entry.published.filter(category=parent_category)
 
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
