@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
 # Create your views here.
-
+from django.http import JsonResponse
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, authenticate
 from django.template import RequestContext
@@ -23,12 +23,11 @@ import pdb
 
 @api_view(['POST'])
 def register_view(request):
-    pdb.set_trace()
+
 
     if request.method == 'POST':
         postdata = request.data
         up_se = UserProfileSerializer
-        pdb.set_trace()
         username = postdata["username"]
         password = postdata["password"]
         email = postdata["email"]
@@ -36,7 +35,8 @@ def register_view(request):
                                        email=email)
         new_user.save()
         new_user_id = new_user.id
-        return Response({"result":"created", "user_id": new_user_id}, status=status.HTTP_201_CREATED)
+        #return Response({"result":"created", "user_id": new_user_id}, status=status.HTTP_201_CREATED)
+        return JsonResponse({"result":"created", "user_id": new_user_id})
     # page_title = _(u'User Registration')
     # if request.method == 'POST':
     #     postdata = request.POST.copy()
