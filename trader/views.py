@@ -1,4 +1,4 @@
-# from django.shortcuts import render
+from django.shortcuts import render
 
 # Create your views here.
 
@@ -15,30 +15,43 @@ from rest_framework.decorators import list_route, api_view
 from rest_framework.response import Response
 from rest_framework import status
 from trader.models import UserProfile, Category, SaleItem
-from trader.serializers import CategorySerializer
+from trader.serializers import (CategorySerializer, UserProfileSerializer,
+                                SaleItemSerializer)
+from django.contrib.auth.models import User
+
 
 
 @api_view(['POST'])
 def register_view(request):
-    page_title = _(u'User Registration')
     if request.method == 'POST':
-        postdata = request.POST.copy()
-        form = UserCreationForm(postdata)
-        if form.is_valid():
-            form.save()
-            un = postdata.get('username', '')
-            pw = postdata.get('password1', '')
-            new_user = authenticate(username=un, password=pw)
-            if new_user and new_user.is_active:
-                login(request, new_user)
-                url = urlresolvers.reverse('my_account')
-                return HttpResponseRedirect(url)
-    else:
-        form = UserCreationForm()
-    template_name="registration/login.html"
-    # return render_to_response(template_name, locals(),
-    #                           context_instance=RequestContext(request))
-    return Response()
+        postdata = request.data
+        up_se = UserProfileSerializer
+        username = postdata.pop("username")
+        password = postdata.pop("password")
+        email = postdata.pop("email")
+        new_user = User.objects.create(username=username, password=password,
+                                       email=email)
+        new_user.save()
+        return Response("created", status=status.HTTP_201_CREATED)
+    # page_title = _(u'User Registration')
+    # if request.method == 'POST':
+    #     postdata = request.POST.copy()
+    #     form = UserCreationForm(postdata)
+    #     if form.is_valid():
+    #         form.save()
+    #         un = postdata.get('username', '')
+    #         pw = postdata.get('password1', '')
+    #         new_user = authenticate(username=un, password=pw)
+    #         if new_user and new_user.is_active:
+    #             login(request, new_user)
+    #             url = urlresolvers.reverse('my_account')
+    #             return HttpResponseRedirect(url)
+    # else:
+    #     form = UserCreationForm()
+    # template_name="registration/login.html"
+    # # return render_to_response(template_name, locals(),
+    # #                           context_instance=RequestContext(request))
+    # return Response()
 
 @login_required
 def my_account_view(request):
