@@ -11,4 +11,5 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^auth/', include('rest_framework.urls',
                            namespace='rest_framework')),
+    url(r'^api/', include('trader.urls')),
 ]
